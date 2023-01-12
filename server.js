@@ -47,6 +47,48 @@ const dbQuery = {
       }
     );
   },
+
+  allDept() {
+    db.query(
+      `
+    SELECT department.id, department.name
+    FROM department
+    ORDER BY department.name;
+    `,
+
+      (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        console.table(result);
+      }
+    );
+  },
+
+  allEmployees() {
+    db.query(
+      `
+      SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(employee_t2.first_name, " ", employee_t2.last_name) AS manager
+      FROM employee
+      LEFT JOIN role
+      ON employee.role_id = role.id
+      LEFT JOIN department
+      ON role.department_id = department.id
+      LEFT JOIN employee as employee_t2
+      ON employee.manager_id = employee_t2.id
+
+      
+      ORDER BY employee.id ASC;
+    `,
+
+      (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        console.table(result);
+      }
+    );
+  },
 };
 
 //dbQuery.showTables();
