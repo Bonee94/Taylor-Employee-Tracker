@@ -89,6 +89,22 @@ const dbQuery = {
       }
     );
   },
+
+  addDept(name) {
+    db.query(
+      `
+      INSERT INTO department (name)
+      VALUES ('${name}');      
+    `,
+
+      (err) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log("\n" + `Added ${name} to the database`);
+      }
+    );
+  },
 };
 
 //dbQuery.showTables();

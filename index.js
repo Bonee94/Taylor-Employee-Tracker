@@ -10,10 +10,11 @@ const toDoPrompt = () => {
         name: "selectedToDo",
         choices: [
           "View all departments",
-          "View all roles",
-          "View all employees",
           "Add a department",
+          "Delete a department",
+          "View all roles",
           "Add a role",
+          "View all employees",
           "Add a employee",
           "Update an employee role",
         ],
@@ -28,9 +29,18 @@ const toDoPrompt = () => {
           dbQuery.allDept();
           timedPrompt();
           break;
+        case "Add a department":
+          addANew("department");
+          break;
+        // case "Delete a department":
+        //   addANew("department");
+        //   break;
         case "View all roles":
           dbQuery.allRoles();
           timedPrompt();
+          break;
+        case "Add a role":
+          addANew("role");
           break;
         case "View all employees":
           dbQuery.allEmployees();
@@ -46,6 +56,27 @@ const timedPrompt = () => {
   setTimeout(() => {
     toDoPrompt();
   }, 500);
+};
+
+// This function operates a switch call for adding either an employee, a role or a new department
+const addANew = (choice) => {
+  switch (choice) {
+    case "department":
+      inquirer
+        .prompt([
+          {
+            type: "input",
+            name: "newDeptName",
+            message: "What is the name of the department?",
+          },
+        ])
+        .then((data) => {
+          const newDeptTrimmed = data.newDeptName.trim();
+          console.log(`Added ${newDeptTrimmed} to the database`);
+          dbQuery.addDept(newDeptTrimmed);
+          timedPrompt();
+        });
+  }
 };
 
 // Initializes prompt
