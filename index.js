@@ -46,7 +46,7 @@ const toDoPrompt = () => {
           dbQuery.allEmployees();
           timedPrompt();
           break;
-          case "Add a employee":
+        case "Add a employee":
           addANew("employee");
           break;
       }
@@ -61,7 +61,7 @@ const timedPrompt = () => {
   }, 500);
 };
 
-// This function operates a switch call for adding either an employee, a role or a new department
+// This function operates a switch call for adding either a new employee, a new role or a new department
 const addANew = async (choice) => {
   switch (choice) {
     case "department":
@@ -110,15 +110,17 @@ const addANew = async (choice) => {
           },
         ])
         .then(async (data) => {
-          console.log(data);
-
           for (let index = 0; index < allDepartmentData.length; index++) {
             if (allDepartmentData[index].name == data.newRoleDept) {
               const newRoleTitleTrimmed = data.newRoleName.trim();
 
-              dbQuery.addRole(`${newRoleTitleTrimmed}`, data.newRoleSalary, allDepartmentData[index].id);
+              dbQuery.addRole(
+                `${newRoleTitleTrimmed}`,
+                data.newRoleSalary,
+                allDepartmentData[index].id
+              );
 
-              console.log('\n');
+              console.log("\n");
 
               timedPrompt();
 
@@ -129,7 +131,86 @@ const addANew = async (choice) => {
 
       break;
     case "employee":
-      
+      const allRoleData = await dbQuery.allFrom("role");
+      const allEmployeeData = await dbQuery.allFrom("employee");
+
+      const roleArr = [];
+      const employeeArr = ["None"];
+
+      for (let index = 0; index < allEmployeeData.length; index++) {
+        employeeArr.push(
+          allEmployeeData[index].first_name +
+            " " +
+            allEmployeeData[index].last_name
+        );
+      }
+
+      for (let index = 0; index < allRoleData.length; index++) {
+        roleArr.push(allRoleData[index].title);
+      }
+
+      inquirer
+        .prompt([
+          {
+            type: "input",
+            name: "newEmployeeFirstName",
+            message: "What is the employee's first name?",
+          },
+          {
+            type: "input",
+            name: "newEmployeeLastName",
+            message: "What is the employee's last name?",
+          },
+          {
+            type: "list",
+            name: "newEmployeeRole",
+            message: "What is the employee's role?",
+            choices: roleArr,
+          },
+          {
+            type: "list",
+            name: "newEmployeeManager",
+            message: "Who is the employee's manager?",
+            choices: employeeArr,
+          },
+        ])
+        .then(async (data) => {
+          const firstName = data.newEmployeeFirstName.trim();
+          const lastName = data.newEmployeeLastName.trim();
+          const allEmployeeData = await dbQuery.allFrom("employee");
+          const allRoleData = await dbQuery.allFrom("role");
+          console.log(allEmployeeData);
+
+          const fullName = (first, last) => {
+            return first + " " + last;
+          };
+
+          let roleId = 0;
+          let managerId = 0;
+
+          for (let hold = 0; hold < roleArr.length; hold++) {
+            if (allRoleData[hold].title == data.newEmployeeRole) {
+              roleId = allRoleData[hold].id;
+            }
+          }
+
+          for (let index = 0; index < employeeArr.length; index++) {
+            const employeeFirst = allEmployeeData[0].first_name;
+            const employeeLast = allEmployeeData[0].last_name;
+
+            let fullNameAnswer = fullName(employeeFirst, employeeLast);
+
+            if (fullNameAnswer == data.newEmployeeRole) {
+              managerId = allEmployeeData[index].id;
+            }
+          }
+
+          dbQuery.addEmployee(firstName, lastName, roleId, managerId);
+
+          console.log("\n");
+
+          timedPrompt();
+        });
   }
 };
 
