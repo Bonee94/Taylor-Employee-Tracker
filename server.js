@@ -5,7 +5,8 @@ const cTable = require("console.table");
 
 const mysql = require("mysql2");
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
+  connectionLimit: 10,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -14,19 +15,24 @@ const db = mysql.createConnection({
 
 const dbQuery = {
   showTables() {
-    db.query(`SHOW tables;`, (err, result) => {
-      if (err) {
-        console.log(err);
-      }
-      console.table(result);
+    return new Promise((resolve, reject) => {
+      db.query(`SHOW tables;`, (err, result) => {
+        if (err) {
+          return reject(console.log(err));
+        }
+        return resolve(console.table(result));
+      });
     });
   },
+
   allFrom(location) {
-    db.query(`SELECT * FROM ${location};`, (err, result) => {
-      if (err) {
-        console.log(err);
-      }
-      console.table(result);
+    return new Promise((resolve, reject) => {
+      db.query(`SELECT * FROM ${location};`, (err, result) => {
+        if (err) {
+          return reject(console.log(err));
+        }
+        return resolve(result);
+      });
     });
   },
 
@@ -105,10 +111,20 @@ const dbQuery = {
       }
     );
   },
+
+  addRole(roleName, roleSalary, roleDeptId) {
+    db.query(
+      `INSERT INTO role (title, salary, department_id)
+      VALUES ('${roleName}', ${roleSalary}, ${roleDeptId}); `,
+
+      (err) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log("\n" + `Added ${roleName} to the database`);
+      }
+    );
+  },
 };
-
-//dbQuery.showTables();
-
-//dbQuery.allRoles();
 
 module.exports = dbQuery;
