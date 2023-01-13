@@ -6,7 +6,7 @@ const cTable = require("console.table");
 const mysql = require("mysql2");
 
 const db = mysql.createPool({
-  connectionLimit: 10,
+  connectionLimit: 500,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
@@ -138,8 +138,8 @@ const dbQuery = {
   addEmployee(firstName, lastName, roleId, managerId) {
     return new Promise((resolve, reject) => {
       db.query(
-        `INSERT INTO employee (first_name, last_name, role_id, id) VALUES ('${firstName}', '${lastName}', ${roleId}, ${managerId})`
-        ,
+        `INSERT INTO employee (first_name, last_name, role_id, manager_id) 
+        VALUES ('${firstName}', '${lastName}', ${roleId}, ${managerId});`,
         (err) => {
           if (err) {
             return reject(console.log(err));

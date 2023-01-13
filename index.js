@@ -177,9 +177,8 @@ const addANew = async (choice) => {
         .then(async (data) => {
           const firstName = data.newEmployeeFirstName.trim();
           const lastName = data.newEmployeeLastName.trim();
-          const allEmployeeData = await dbQuery.allFrom("employee");
           const allRoleData = await dbQuery.allFrom("role");
-          console.log(allEmployeeData);
+          const dataEmployee = await dbQuery.allFrom("employee");
 
           const fullName = (first, last) => {
             return first + " " + last;
@@ -191,23 +190,31 @@ const addANew = async (choice) => {
           for (let hold = 0; hold < roleArr.length; hold++) {
             if (allRoleData[hold].title == data.newEmployeeRole) {
               roleId = allRoleData[hold].id;
+
+              break;
             }
           }
 
           for (let index = 0; index < employeeArr.length; index++) {
-            const employeeFirst = allEmployeeData[0].first_name;
-            const employeeLast = allEmployeeData[0].last_name;
+            let employeeFirst = dataEmployee[index].first_name;
+            let employeeLast = dataEmployee[index].last_name;
 
             let fullNameAnswer = fullName(employeeFirst, employeeLast);
 
-            if (fullNameAnswer == data.newEmployeeRole) {
-              managerId = allEmployeeData[index].id;
+            if (fullNameAnswer == data.newEmployeeManager) {
+              managerId = dataEmployee[index].id;
+
+              break;
+            } else if ("None" == data.newEmployeeManager) {
+              managerId = null;
+
+              break;
             }
           }
 
           dbQuery.addEmployee(firstName, lastName, roleId, managerId);
 
-          console.log("\n");
+          console.log(" ");
 
           timedPrompt();
         });
