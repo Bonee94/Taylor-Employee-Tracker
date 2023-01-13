@@ -38,42 +38,45 @@ const dbQuery = {
 
   // This method returns all employee roles in desired table format and prints to console
   allRoles() {
-    db.query(
-      `
+    return new Promise((resolve, reject) => {
+      db.query(
+        `
     SELECT role.id, role.title, department.name AS department, role.salary
     FROM role
     INNER JOIN department ON role.department_id = department.id;
     `,
-
-      (err, result) => {
-        if (err) {
-          console.log(err);
+        (err, result) => {
+          if (err) {
+            return reject(console.log(err));
+          }
+          return resolve(console.table(result));
         }
-        console.table(result);
-      }
-    );
+      );
+    });
   },
 
   allDept() {
-    db.query(
-      `
-    SELECT department.id, department.name
-    FROM department
-    ORDER BY department.name;
-    `,
-
-      (err, result) => {
-        if (err) {
-          console.log(err);
+    return new Promise((resolve, reject) => {
+      db.query(
+        `
+        SELECT department.id, department.name
+        FROM department
+        ORDER BY department.name;
+        `,
+        (err, result) => {
+          if (err) {
+            return reject(console.log(err));
+          }
+          return resolve(console.table(result));
         }
-        console.table(result);
-      }
-    );
+      );
+    });
   },
 
   allEmployees() {
-    db.query(
-      `
+    return new Promise((resolve, reject) => {
+      db.query(
+        `
       SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(employee_t2.first_name, " ", employee_t2.last_name) AS manager
       FROM employee
       LEFT JOIN role
@@ -86,44 +89,67 @@ const dbQuery = {
       
       ORDER BY employee.id ASC;
     `,
-
-      (err, result) => {
-        if (err) {
-          console.log(err);
+        (err, result) => {
+          if (err) {
+            return reject(console.log(err));
+          }
+          return resolve(console.table(result));
         }
-        console.table(result);
-      }
-    );
+      );
+    });
   },
 
   addDept(name) {
-    db.query(
-      `
+    return new Promise((resolve, reject) => {
+      db.query(
+        `
       INSERT INTO department (name)
       VALUES ('${name}');      
     `,
 
-      (err) => {
-        if (err) {
-          console.log(err);
+        (err) => {
+          if (err) {
+            return reject(console.log(err));
+          }
+          return resolve(console.log("\n" + `Added ${name} to the database`));
         }
-        console.log("\n" + `Added ${name} to the database`);
-      }
-    );
+      );
+    });
   },
 
   addRole(roleName, roleSalary, roleDeptId) {
-    db.query(
-      `INSERT INTO role (title, salary, department_id)
+    return new Promise((resolve, reject) => {
+      db.query(
+        `INSERT INTO role (title, salary, department_id)
       VALUES ('${roleName}', ${roleSalary}, ${roleDeptId}); `,
 
-      (err) => {
-        if (err) {
-          console.log(err);
+        (err) => {
+          if (err) {
+            return reject(console.log(err));
+          }
+          return resolve(
+            console.log("\n" + `Added ${roleName} to the database`)
+          );
         }
-        console.log("\n" + `Added ${roleName} to the database`);
-      }
-    );
+      );
+    });
+  },
+
+  addEmployee(firstName, lastName, roleId, managerId) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `INSERT INTO employee (first_name, last_name, role_id, id) VALUES ('${firstName}', '${lastName}', ${roleId}, ${managerId})`
+        ,
+        (err) => {
+          if (err) {
+            return reject(console.log(err));
+          }
+          return resolve(
+            console.log("\n" + `Added ${firstName} ${lastName} to the database`)
+          );
+        }
+      );
+    });
   },
 };
 
