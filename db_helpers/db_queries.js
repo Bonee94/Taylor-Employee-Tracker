@@ -33,7 +33,7 @@ const dbQuery = {
         `
     SELECT role.id, role.title, department.name AS department, role.salary
     FROM role
-    INNER JOIN department ON role.department_id = department.id;
+    LEFT JOIN department ON role.department_id = department.id;
     `,
         (err, result) => {
           if (err) {
@@ -179,6 +179,23 @@ const dbQuery = {
           }
           return resolve(
             console.log("\n" + `Deleted ${deptName} from the database` + "\n")
+          );
+        }
+      );
+    });
+  },
+
+  deleteRole(roleName) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `DELETE FROM role WHERE role.title = '${roleName}';`
+        ,
+        (err) => {
+          if (err) {
+            return reject(console.log(err));
+          }
+          return resolve(
+            console.log("\n" + `Deleted ${roleName} from the database` + "\n")
           );
         }
       );
