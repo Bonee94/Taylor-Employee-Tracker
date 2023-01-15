@@ -5,7 +5,7 @@ const timedPrompt = require("./timed_prompt");
 const deleteRole = async () => {
   const allRoleData = await dbQuery.allFrom("role");
 
-  //This pushes all the dept names to an array for the role choices in the prompt
+  //This pushes all the role names to an array for the role choices in the prompt
   const roleNameArray = ['(RETURN)'];
 
   for (let index = 0; index < allRoleData.length; index++) {

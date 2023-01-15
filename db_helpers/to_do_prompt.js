@@ -3,6 +3,7 @@ const dbQuery = require("./db_queries");
 const addANew = require("./add_a_new");
 const deleteDept = require("./delete_dept");
 const deleteRole = require("./delete_role");
+const deleteEmployee = require("./delete_employee");
 const updateManager = require("./update_manager");
 const timedPrompt = require("./timed_prompt");
 
@@ -22,6 +23,7 @@ const toDoPrompt = () => {
           "Delete a role\n",
           "View all employees",
           "Add an employee",
+          "Delete an employee",
           "Update an employee's manager\n",
         ],
       },
@@ -88,6 +90,9 @@ const toDoPrompt = () => {
           break;
         case "Add an employee":
           addANew("employee");
+          break;
+        case "Delete an employee":
+          deleteEmployee();
           break;
         case "Update an employee's manager\n":
           updateManager();

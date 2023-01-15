@@ -202,6 +202,25 @@ const dbQuery = {
     });
   },
 
+  deleteEmployee(firstName, lastName) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `DELETE FROM employee 
+        WHERE employee.first_name = '${firstName}'
+        AND employee.last_name = '${lastName}';`
+        ,
+        (err) => {
+          if (err) {
+            return reject(console.log(err));
+          }
+          return resolve(
+            console.log("\n" + `Deleted ${firstName} ${lastName} from the database` + "\n")
+          );
+        }
+      );
+    });
+  },
+
   updateManager(employeeName, prevManager, newManager, employeeId, newManagerId) {
     return new Promise((resolve, reject) => {
       db.query(
