@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const dbQuery = require("./db_queries");
 const addANew = require("./add_a_new");
+const viewEmployeeOptions = require("./view_all_employees_options");
 const deleteDept = require("./delete_dept");
 const deleteRole = require("./delete_role");
 const deleteEmployee = require("./delete_employee");
@@ -56,37 +57,7 @@ const toDoPrompt = () => {
           break;
         case "View all employees":
           dbQuery.allEmployees();
-            const viewEmployeeOptions = () => {
-                setTimeout(() => {
-                    inquirer
-                      .prompt([
-                        {
-                          type: "list",
-                          message:
-                            "Would you like to group employees by manager or dept?",
-                          name: "orderBy",
-                          choices: ["Manager", "Dept", "No thank you (Return)"],
-                        },
-                      ])
-                      .then((answer) => {
-                        console.log("\n")
-                        switch (answer.orderBy) {
-                          case "Manager":
-                            dbQuery.employeeGroupBy("manager");
-                            viewEmployeeOptions();
-                            break;
-                          case "Dept":
-                            dbQuery.employeeGroupBy("department");
-                            viewEmployeeOptions();
-                            break;
-                          case "No thank you (Return)":
-                            timedPrompt();
-                            break;
-                        }
-                      });
-                  }, 500);
-            }
-            viewEmployeeOptions();
+          viewEmployeeOptions();
           //timedPrompt();
           break;
         case "Add an employee":
@@ -98,7 +69,7 @@ const toDoPrompt = () => {
         case "Update an employee's manager\n":
           updateManager();
           break;
-        case  "View total of salaries by dept\n":
+        case "View total of salaries by dept\n":
           dbQuery.sumOfSalaries();
           timedPrompt();
           break;
