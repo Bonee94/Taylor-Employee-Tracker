@@ -266,6 +266,26 @@ const dbQuery = {
     });
   },
 
+  updateRolesDept(roleTitle, roleId, deptId) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `UPDATE role
+        SET department_id = ${roleId}
+        WHERE role.id = ${deptId};`,
+        (err) => {
+          if (err) {
+            return reject(console.log(err));
+          }
+          return resolve(
+            console.log(
+              "\n" + `Updated ${roleTitle}'s belonging to dept in the database` + "\n"
+            )
+          );
+        }
+      );
+    });
+  },
+
   sumOfSalaries() {
     return new Promise((resolve, reject) => {
       db.query(

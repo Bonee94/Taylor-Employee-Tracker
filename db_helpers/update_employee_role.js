@@ -52,13 +52,12 @@ const updateEmployeeRole = async () => {
   chooseEmployee();
 
   const chooseRole = (selectedEmployee) => {
-    console.log(`made it here ${selectedEmployee}`);
     inquirer
       .prompt([
         {
           type: "list",
           name: "selectedRole",
-          message: "What is the new role for this employee?",
+          message: `What is the new role for ${selectedEmployee}`,
           choices: roleArr,
         },
       ])
