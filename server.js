@@ -111,7 +111,7 @@ const dbQuery = {
           if (err) {
             return reject(console.log(err));
           }
-          return resolve(console.log("\n" + `Added ${name} to the database`));
+          return resolve(console.log("\n" + `Added ${name} to the database` + "\n"));
         }
       );
     });
@@ -128,7 +128,7 @@ const dbQuery = {
             return reject(console.log(err));
           }
           return resolve(
-            console.log("\n" + `Added ${roleName} to the database`)
+            console.log("\n" + `Added ${roleName} to the database` + "\n")
           );
         }
       );
@@ -145,12 +145,31 @@ const dbQuery = {
             return reject(console.log(err));
           }
           return resolve(
-            console.log("\n" + `Added ${firstName} ${lastName} to the database`)
+            console.log("\n" + `Added ${firstName} ${lastName} to the database` + "\n")
           );
         }
       );
     });
   },
+  
+  deleteDept(deptName) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `DELETE FROM department WHERE name = '${deptName}';`
+        ,
+        (err) => {
+          if (err) {
+            return reject(console.log(err));
+          }
+          return resolve(
+            console.log("\n" + `Deleted ${deptName} from the database` + "\n")
+          );
+        }
+      );
+    });
+  },
+
+  
 };
 
 module.exports = dbQuery;

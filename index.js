@@ -32,9 +32,9 @@ const toDoPrompt = () => {
         case "Add a department":
           addANew("department");
           break;
-        // case "Delete a department":
-        //   addANew("department");
-        //   break;
+        case "Delete a department":
+          deleteDept();
+          break;
         case "View all roles":
           dbQuery.allRoles();
           timedPrompt();
@@ -75,7 +75,6 @@ const addANew = async (choice) => {
         ])
         .then((data) => {
           const newDeptTrimmed = data.newDeptName.trim();
-          console.log(`Added ${newDeptTrimmed} to the database`);
           dbQuery.addDept(newDeptTrimmed);
           timedPrompt();
         });
@@ -119,8 +118,6 @@ const addANew = async (choice) => {
                 data.newRoleSalary,
                 allDepartmentData[index].id
               );
-
-              console.log("\n");
 
               timedPrompt();
 
@@ -219,6 +216,31 @@ const addANew = async (choice) => {
           timedPrompt();
         });
   }
+};
+
+const deleteDept = async () => {
+  const allDepartmentData = await dbQuery.allFrom("department");
+
+  //This pushes all the dept names to an array for the department choices in the prompt
+  const deptNameArray = [];
+
+  for (let index = 0; index < allDepartmentData.length; index++) {
+    deptNameArray.push(allDepartmentData[index].name);
+  }
+
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "deleteDeptName",
+        message: "What is the department you would like to delete?",
+        choices: deptNameArray,
+      },
+    ])
+    .then((data) => {
+      dbQuery.deleteDept(data.deleteDeptName);
+      timedPrompt();
+    });
 };
 
 // Initializes prompt
