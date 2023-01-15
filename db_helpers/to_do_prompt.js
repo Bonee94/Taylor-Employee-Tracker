@@ -6,6 +6,7 @@ const deleteDept = require("./delete_dept");
 const deleteRole = require("./delete_role");
 const deleteEmployee = require("./delete_employee");
 const updateManager = require("./update_manager");
+const updateEmployeeRole = require("./update_employee_role");
 const timedPrompt = require("./timed_prompt");
 
 const toDoPrompt = () => {
@@ -25,6 +26,7 @@ const toDoPrompt = () => {
           "View all employees",
           "Add an employee",
           "Delete an employee",
+          "Update an employee's role",
           "Update an employee's manager\n",
           "View total of salaries by dept\n",
         ],
@@ -65,6 +67,9 @@ const toDoPrompt = () => {
           break;
         case "Delete an employee":
           deleteEmployee();
+          break;
+        case "Update an employee's role":
+            updateEmployeeRole();
           break;
         case "Update an employee's manager\n":
           updateManager();

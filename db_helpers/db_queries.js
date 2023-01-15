@@ -246,6 +246,26 @@ const dbQuery = {
     });
   },
 
+  updateRole(employeeName, employeeId, newRoleId) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `UPDATE employee
+        SET role_id = ${newRoleId}
+        WHERE employee.id = ${employeeId};`,
+        (err) => {
+          if (err) {
+            return reject(console.log(err));
+          }
+          return resolve(
+            console.log(
+              "\n" + `Updated ${employeeName}'s role in the database` + "\n"
+            )
+          );
+        }
+      );
+    });
+  },
+
   sumOfSalaries() {
     return new Promise((resolve, reject) => {
       db.query(
