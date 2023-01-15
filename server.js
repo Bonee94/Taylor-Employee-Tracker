@@ -1,7 +1,7 @@
 // Dotenv is for making a secure connection to mysql
 require("dotenv").config();
 // console.table is for displaying passed json data in a console table
-const cTable = require("console.table");
+require("console.table");
 
 const mysql = require("mysql2");
 
@@ -169,7 +169,24 @@ const dbQuery = {
     });
   },
 
-  
+  updateManager(employeeName, prevManager, newManager, employeeId, newManagerId) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `UPDATE employee
+        SET manager_id = ${newManagerId}
+        WHERE employee.id = ${employeeId};`
+        ,
+        (err) => {
+          if (err) {
+            return reject(console.log(err));
+          }
+          return resolve(
+            console.log("\n" + `Updated ${employeeName}'s manager from ${prevManager} to ${newManager} in the database` + "\n")
+          );
+        }
+      );
+    });
+  },
 };
 
 module.exports = dbQuery;
