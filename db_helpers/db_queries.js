@@ -1,17 +1,7 @@
-// Dotenv is for making a secure connection to mysql
-require("dotenv").config();
 // console.table is for displaying passed json data in a console table
 require("console.table");
-
-const mysql = require("mysql2");
-
-const db = mysql.createPool({
-  connectionLimit: 500,
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
+// This import creates the connection for our database
+const db = require("../config/connection");
 
 const dbQuery = {
   showTables() {
