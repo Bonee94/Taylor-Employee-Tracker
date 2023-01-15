@@ -127,7 +127,9 @@ const dbQuery = {
           if (err) {
             return reject(console.log(err));
           }
-          return resolve(console.log("\n" + `Added ${name} to the database` + "\n"));
+          return resolve(
+            console.log("\n" + `Added ${name} to the database` + "\n")
+          );
         }
       );
     });
@@ -161,44 +163,38 @@ const dbQuery = {
             return reject(console.log(err));
           }
           return resolve(
-            console.log("\n" + `Added ${firstName} ${lastName} to the database` + "\n")
-          );
-        }
-      );
-    });
-  },
-  
-  deleteDept(deptName) {
-    return new Promise((resolve, reject) => {
-      db.query(
-        `DELETE FROM department WHERE name = '${deptName}';`
-        ,
-        (err) => {
-          if (err) {
-            return reject(console.log(err));
-          }
-          return resolve(
-            console.log("\n" + `Deleted ${deptName} from the database` + "\n")
+            console.log(
+              "\n" + `Added ${firstName} ${lastName} to the database` + "\n"
+            )
           );
         }
       );
     });
   },
 
+  deleteDept(deptName) {
+    return new Promise((resolve, reject) => {
+      db.query(`DELETE FROM department WHERE name = '${deptName}';`, (err) => {
+        if (err) {
+          return reject(console.log(err));
+        }
+        return resolve(
+          console.log("\n" + `Deleted ${deptName} from the database` + "\n")
+        );
+      });
+    });
+  },
+
   deleteRole(roleName) {
     return new Promise((resolve, reject) => {
-      db.query(
-        `DELETE FROM role WHERE role.title = '${roleName}';`
-        ,
-        (err) => {
-          if (err) {
-            return reject(console.log(err));
-          }
-          return resolve(
-            console.log("\n" + `Deleted ${roleName} from the database` + "\n")
-          );
+      db.query(`DELETE FROM role WHERE role.title = '${roleName}';`, (err) => {
+        if (err) {
+          return reject(console.log(err));
         }
-      );
+        return resolve(
+          console.log("\n" + `Deleted ${roleName} from the database` + "\n")
+        );
+      });
     });
   },
 
@@ -207,34 +203,61 @@ const dbQuery = {
       db.query(
         `DELETE FROM employee 
         WHERE employee.first_name = '${firstName}'
-        AND employee.last_name = '${lastName}';`
-        ,
+        AND employee.last_name = '${lastName}';`,
         (err) => {
           if (err) {
             return reject(console.log(err));
           }
           return resolve(
-            console.log("\n" + `Deleted ${firstName} ${lastName} from the database` + "\n")
+            console.log(
+              "\n" + `Deleted ${firstName} ${lastName} from the database` + "\n"
+            )
           );
         }
       );
     });
   },
 
-  updateManager(employeeName, prevManager, newManager, employeeId, newManagerId) {
+  updateManager(
+    employeeName,
+    prevManager,
+    newManager,
+    employeeId,
+    newManagerId
+  ) {
     return new Promise((resolve, reject) => {
       db.query(
         `UPDATE employee
         SET manager_id = ${newManagerId}
-        WHERE employee.id = ${employeeId};`
-        ,
+        WHERE employee.id = ${employeeId};`,
         (err) => {
           if (err) {
             return reject(console.log(err));
           }
           return resolve(
-            console.log("\n" + `Updated ${employeeName}'s manager from ${prevManager} to ${newManager} in the database` + "\n")
+            console.log(
+              "\n" +
+                `Updated ${employeeName}'s manager from ${prevManager} to ${newManager} in the database` +
+                "\n"
+            )
           );
+        }
+      );
+    });
+  },
+
+  sumOfSalaries() {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `SELECT department.name AS department, SUM(role.salary) AS total_employee_salary
+        FROM department
+        INNER JOIN role ON department.id = role.department_id
+        GROUP BY department;`,
+        (err, result) => {
+          if (err) {
+            return reject(console.log(err));
+          }
+          return resolve(console.table(result));
         }
       );
     });

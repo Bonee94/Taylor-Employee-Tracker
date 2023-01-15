@@ -25,6 +25,7 @@ const toDoPrompt = () => {
           "Add an employee",
           "Delete an employee",
           "Update an employee's manager\n",
+          "View total of salaries by dept\n",
         ],
       },
     ])
@@ -97,16 +98,12 @@ const toDoPrompt = () => {
         case "Update an employee's manager\n":
           updateManager();
           break;
+        case  "View total of salaries by dept\n":
+          dbQuery.sumOfSalaries();
+          timedPrompt();
+          break;
       }
     });
 };
 
 module.exports = toDoPrompt;
-
-// // This function makes the question prompt be delayed so that the console
-// // can log the returned results correctly without overlapping
-// const timedPrompt = () => {
-//   setTimeout(() => {
-//     toDoPrompt();
-//   }, 500);
-// };
