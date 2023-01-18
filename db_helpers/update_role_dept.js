@@ -81,7 +81,6 @@ const updateRolesDepartment = async () => {
           }
         }
 
-        console.log(`Roleid: ${roleId} and newDeptID: ${newDeptId}`);
         dbQuery.updateRolesDept(selectedRole, roleId, newDeptId);
         timedPrompt();
       });
