@@ -71,7 +71,8 @@ const updateRolesDepartment = async () => {
 
         //This loop is for getting the new dept id
         for (let index = 0; index < allDeptData.length; index++) {
-          const deptCheck = allDeptData[index].title;
+
+          const deptCheck = allDeptData[index].name;
 
           if (data.selectedDept == deptCheck) {
             newDeptId = allDeptData[index].id;
@@ -80,6 +81,7 @@ const updateRolesDepartment = async () => {
           }
         }
 
+        console.log(`Roleid: ${roleId} and newDeptID: ${newDeptId}`);
         dbQuery.updateRolesDept(selectedRole, roleId, newDeptId);
         timedPrompt();
       });

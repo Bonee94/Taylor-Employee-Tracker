@@ -270,8 +270,8 @@ const dbQuery = {
     return new Promise((resolve, reject) => {
       db.query(
         `UPDATE role
-        SET department_id = ${roleId}
-        WHERE role.id = ${deptId};`,
+        SET department_id = ${deptId}
+        WHERE role.id = ${roleId};`,
         (err) => {
           if (err) {
             return reject(console.log(err));
