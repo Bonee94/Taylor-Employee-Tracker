@@ -14,7 +14,7 @@
 
 ## Links
 
-- [Video Walkthrough]()
+- [Video Walkthrough](https://drive.google.com/file/d/1qSfd0_OfielypGElZwLy4nTdnvabMqan/view)
 - [Github Project Repo](https://github.com/Bonee94/Taylor-Employee-Tracker)
 
 ## User Story
