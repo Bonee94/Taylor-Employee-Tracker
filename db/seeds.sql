@@ -1,15 +1,60 @@
 INSERT INTO department (id, name)
 VALUES  (001, 'Sales'),
-        (002, 'Customer Service');
+        (002, 'Customer Service'),
+        (003, 'Legal'),
+        (004, 'Custodian'),
+        (005, 'Executive Management'),
+        (006, 'Assistant Management');
+
 
 INSERT INTO role(id, title, salary, department_id)
 VALUES  (001, 'Sales Manager', 100000, 001),
         (002, 'Sales Rep', 65000, 001),
         (003, 'Customer Service Manager', 90000, 002),
-        (004, 'Customer Service Rep', 50000, 002);
+        (004, 'Customer Service Rep', 50000, 002),
+        (005, 'Lawyer', 200000, 003),
+        (006, 'L-Assistant', 80000, 003),
+        (007, 'Janitor', 55000, 004),
+        (008, 'Director of Sales', 379000, 005),
+        (009, 'Grounds Keeper', 50000, 004),
+        (010, 'Chief Executive Officer', 680000, 005),
+        (011, 'Office Assistant', 74000, 006);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-VALUES  (001, 'Steven', 'Jackson', 003, NULL),
-        (002, 'John', 'Baker', 004, 001),
-        (003, 'Melissa', 'Wright', 001, NULL),
-        (004, 'Danny', 'Potts', 002, 003);
+VALUES  (1, 'Steven', 'Jackson', 3, null),
+        (2, 'John', 'Baker', 4, 1),
+        (3, 'Melissa', 'Wright', 1, 2),
+        (4, 'Matthew', 'Whistler', 2, 3),
+        (5, 'Flora', 'Knowles', 2, 3),
+        (6, 'Zaynab', 'Bender', 4, 1),
+        (7, 'Tom', 'Calderon', 2, 3),
+        (12, 'Bernice', 'Bolton', 5, 5),
+        (8, 'Sana', 'Chan', 5, 12),
+        (9, 'Gemma', 'Mckenzie', 4, 3),
+        (10, 'Anjali', 'Davies', 5, 12),
+        (11, 'Richard', 'Cordova', 2, 3),
+        (14, 'Chiara', 'Blanchard', 7, null),
+        (13, 'Fraser', 'Price', 7, 14),
+        (15, 'Sienna', 'Reed', 8, 12),
+        (16, 'Roxanne', 'Pittman', 6, 10),
+        (17, 'Flynn', 'Humphrey', 6, 10),
+        (18, 'Ela', 'Wong', 2, 3),
+        (19, 'Miriam  ', 'Herrera', 9, null),
+        (20, 'Ayah', 'Booth', 6, 12),
+        (21, 'Erica', 'Henderson', 5, 15),
+        (22, 'Love', 'Turner', 8, null),
+        (23, 'Clifford', 'Clifford ', 4, 1),
+        (24, 'Yasmine', 'Blackburn', 4, 1),
+        (25, 'Leslie', 'Ramos', 2, 3),
+        (26, 'Genevieve', 'Lane', 2, 3),
+        (27, 'Scarlett', 'Gallagher', 2, 3),
+        (28, 'Deacon', 'Farley', 1, 22),
+        (29, 'Anish', 'Reed', 1, 22),
+        (30, 'Maya', 'Palmer', 1, 22),
+        (31, 'Eleanor', 'Becker', 6, 10),
+        (32, 'Karol', 'Cruz', 6, 10),
+        (33, 'Sophia', 'Adkins', 10, null),
+        (34, 'Noel', 'Jordan', 11, 32),
+        (35, 'Yaseen', 'Mendez', 11, 32),
+        (36, 'Malaika', 'Curry', 11, 32),
+        (37, 'Owain', 'Randolph', 11, 32);
